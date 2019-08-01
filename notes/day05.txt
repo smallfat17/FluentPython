@@ -1,0 +1,61 @@
+	collections.ChainMap
+		https://docs.python.org/3/library/collections.html#collections.ChainMap
+		
+	collections.Counter
+		给键准备一个整数计数器，每次更新一个键都会修改这个计数器
+	
+	collections.UserDict
+		标准的dict的python实现
+	
+	子序列化Userdict
+	
+	不可变的映射类型
+		MappingProxyType:获取dict的只读视图，如果原序列被改动，视图也会改动
+	
+	集合(set)
+        集合中的元素必须是可散列的，set本身是不可散列的，fozenset是可散列的
+        集合的查找速度极快
+
+	中缀运算符
+		|	合集
+		&	交集
+		-	差集
+
+	比较运算符
+						s.isdisjoint(z) 查看 s 和 z 是否不相交（没有共同元素
+						
+		S ⊂ Z s < z 	s.\_\_lt\_\_(z) s 是否为 z 的真子集
+		
+		S ⊇ Z s >= z    s.\_\_ge\_\_(z) s 是否为 z 的父集
+						s.issuperset(it)把可迭代的 it 转化为集合，然后查看 s 是否为它的父
+						
+		S ⊃ Z s > z 	s.\_\_gt\_\_(z) s 是否为 z 的真父集
+		
+		S ⊆ Z s <= z	s.\_\_le\_\_(z) s 是否为 z 的子集
+						s.issubset(it) 把可迭代的 it 转化为集合，然后查看 s 是否为它的子
+
+	创建集合的方式
+		{1, 2, 3} 的速度比 set([1, 2, 3])要快的多 10 000 000个元素的情况下速度差异秒级别
+		
+	dict和set的背后
+		散列表
+			将一个对象放入散列表，首先要计算棋散列值，即hash()函数
+			从python3.3开始，str，bytes和datetime对象在散列值计算过程中进行了“随机加盐”，即加上一个常量来防止DOS攻击
+			
+		dict
+			1.键必须是可散列的
+			2.内存消耗大，因为数据结构是稀疏的
+			3.键查询速度极快，时间复杂度为O（1）
+			4.键的次序取决于添加顺序。dict([key1, value], [key2, value2]) 和 dict([key2, value2], [key1, value1])是相等的。虽然次序不一样
+			5.往字典添加新的键可能会改变已有的键的顺序。当散列表需要扩容的时候，可能会发生哈希冲突，使得键的顺序改变
+			  所以不要在对字典进行迭代和修改，最好讲修改分成两步，先找出需要修改的内容，然后再update
+		
+		set
+			相当于只存储了键的dict，在set没有加入python时，pyton中用dict的键+无用的value来当作集合使用
+			
+		setdefault方法可以用来更新字典里的可变值(list)
+			
+			
+			
+	
+	

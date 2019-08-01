@@ -1,0 +1,15 @@
+	改进asyncio下载
+		阻塞型I/O会释放GIL并阻塞当前线程，因此另一个线程可以运行
+		asyncio事件循环背后维护着一个ThreadPoolExecutor对象，调用asyncio.run_in_executor()方法讲可调用对象(不是协程)发送给它实现异步调用
+	
+	协程代价
+		必须使用yield from并且习惯它，协程不能直接调用，需要事件循环取驱动
+	
+	何时使用yield from
+		基本原则：yield from 只能用于协程和asyncio.Future实例(Task实例)
+		
+	使用asyncio包编写服务器
+		telnet localhost port 开启socket会话
+	
+	驱动协程
+		要么使用yield from，要么传给asyncio包中某个参数为协程或者future类对象，例如run_until_complete()

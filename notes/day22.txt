@@ -1,0 +1,24 @@
+第 19 章 动态属性和特性
+	使用动态属性转换数据
+		仅当无法使用常规方式获取属性的时候才会调用__getattr__方法
+	
+		真正用来构造实例的方法是__new__，返回的实例即为self并调用__init__方法
+		
+	特性(property)
+		装饰器函数，
+		class A:
+			
+			def __init__(self, weight):
+				self.weight = weight
+			
+			def get_weight(self):
+				return self.__weight
+			
+			def set_weight(self, value):
+				self.__weight = value
+			
+			weight = property(get_weight, set_weight)#非装饰器使用方式，python2.4后出现@property
+		特性是类属性，但是特性管理的是实例属性的存取
+		特性会覆盖实例属性
+		寻找obj.attr， 先从obj.__class__查找是否由特性，再查找实例属性
+			

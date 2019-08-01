@@ -1,0 +1,113 @@
+	结构体和内存视图
+		对memoryview的切片操作不会复制字节序列
+	编码
+		latin1(iso8859_1)
+			是其他编码的基础，如cp1252和Unicode
+		cp1252
+			Microsoft定制的latin1超集，添加了有用符号，一些windows应用将其描述为ANSI，但并不是ANSI标准
+		cp437
+			IBM PC最初的字符集，但与latin1不兼容
+		gb2312
+			简历中文的陈旧标准，亚洲语言中使用广泛
+		utf-8
+			当前web中最常见的8位编码，与ASCII兼容(纯ASCII码是有效的UTF-8编码)
+		utf-16le
+			UTF-16的十六位编码方案
+	编码问题
+		首先：查清是UnicodeEncodeError还是UnicodeDecodeError或者是SyntaxError，SyntaxError是由于模块编码与预期不符造成的
+		处理UnicodeEncodeError
+			使用正确的编码，encode()传入errors参数，errors='ignore'时会忽略无法编码的字符，
+												    errors='replace'时会把无法编码的字符用'?'代替
+		处理UnicodeDecodeError
+			使用正确的编码，errors同上
+			python3支持Unicode名称作为标识符，
+			你 = ‘jin’
+			print(你) #jin
+		处理SyntaxError
+			.py文件首行
+			#codeing: utf-8  
+			使用正确的编码 
+		
+		如何确定正确的编码
+			ease to say，不能，必须是被告知
+			内达华穷举法！！python提供了Chardet库，用于检测文件的编码格式，根据字节序列的特性
+			hardetect UnicodeError_Test.py
+			UnicodeError_Test.py: utf-8 with confidence 0.99
+		
+		处理文本文件
+			Unicode三明治
+				bytes-->str  解码输入(decode)
+				100% str	处理文本
+				str-->bytes	编码输出(encode)
+			open()函数在读取时做了必要的解码encoding=参数可以改变解码方式
+			open()函数'rb'模式返回的是BufferedReader对象，'r'模式返回的是TextIOWrapper对象
+			除了处理二进制文件，如图像、音频等，不要使用二进制模式读取文件
+			
+			如果open()没有带encoding参数，默认参数是locale.getpreferredencoding()
+			在二进制数据与字符串之间转换使用的sys.getdefaultencoding()获得的编码
+		
+		最后：别依赖默认值，手动设置编码格式。编码问题，Done。
+		
+	Unicode字符串比较问题
+		from unicodedata import normalize
+		normalize可使用四种形式'NFC', 'NFKC', 'NFD', and 'NFKD'对Unicode字符进行标准化
+		NFC是W3C推荐的规范形式
+		NFKC是带兼容性的标准，如'½'会被兼容分解位1/2三个字符，µ会被分解为小写字母μ，虽然看起来一样但是编码不同，但是4²会被兼容分解为42，虽然曲解了本意，但也为搜索提供了便利的中间描述，所以NFKC和NFKD只能用于搜索和索引
+		
+		不区分大小写的比较，使用cssefold()
+		处理多语言文本，nfc+casefold()进行比较
+		
+		在搜索和索引的时候去掉变音符号是比较好的选择
+			先使用normalize()的NFD模式将字符串标准化，使得变音符分开，再使用unicodedata.combing()判断是否为变音符，如果是则抛弃，在使用NFC模式拼接
+	
+	Unicode字符排序问题
+		使用Unicode排序算法排序
+		安装pyuca库，sorted(lst,kye=pyuca.Collator().sort_key)
+	正则表达式中的识别模式 rb'\w+'只能匹配ASCII字节中的字母和数字，r'\w+'能匹配ASCII之外的Unicode字符
+	
+	
+	纯文本
+		只由特定标准的码位序列组成的计算机编码文本，其中不含其他格式化或结构化信息。
+		
+第五章	一等函数
+	python函数式编程指引	https://docs.python.org/zh-cn/3/howto/functional.html
+	一等对象的定义：
+		再运行时创建
+		能赋值给变量或数据结构中的元素
+		能作为参数传递给函数
+		能作为函数的返回结果
+	高阶函数
+		map，filter，reduce的替代品：生成器表达式或列表推导
+	匿名函数
+		lambda
+		lambda表达式重构秘籍
+			1.写注释，说明lambda表达式的作用
+			2.研究一会注释，并找出一个名称来概括注释（感觉往奇怪的方向发展了）
+			3.把lambda表达式转换成def语句，使用那个名称来定义函数
+			4.删除注释
+	
+	可调用对象  
+		内置函数callable()能判断一个对象能否被调用
+		1.用户定义的函数
+			def，lambda表达式创建
+		2.内置函数
+			Cpython内置的C语言函数，len，time.strftime
+		3.内置方法
+			内置类的方法，dict.get
+		4.方法
+			自定义类的方法
+		5.类
+			调用一个类将执行__new__操作新建一个实例，然后运行__init__方法初始化实例，最后将实例返回
+		6.类的实例
+			需要实现__call__方法
+		7.生成器函数
+			返回一个生成器对象
+		
+		自定义可调用类型
+			实现__call__函数，此时需要保留一个是否可调用的内部状态
+			
+		运行时内省
+		
+		
+
+			

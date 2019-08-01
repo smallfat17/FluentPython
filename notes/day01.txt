@@ -1,0 +1,17 @@
+%r 占位符会保留字符串的引号
+
+[x for x in 'abc'] 返回的是一个列表
+(x for x in 'abc') 返回的是生成器   生成器是惰性求值，能够节省内存空间，即需要使用的时候才进行next()操作获取值
+
+元组拆包 (可迭代对象拆包)
+a = tuple(1,2)
+print('%s/%s' % a)  # 1/2
+
+*tuple 可拆包作为函数参数
+class Student:
+    def __init__(self, name, age):
+	    self.name = name,
+		self.age = age
+
+student_msg = ('jack', 18)
+stu = Student(*student_msg)  #实例化成功

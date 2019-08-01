@@ -1,0 +1,80 @@
+第 11 章 接口：从协议到抽象基类
+	抽象类表示接口
+		不建议自己写抽象类，可能会对用户施加不必要的限制
+	
+	Python文化中的接口和协议
+		接口：类实现或者继承的公开属性，包括特殊方法
+		
+	Python喜欢序列
+		Python数据模型的哲学是尽量支持基本协议
+		只实现__getitem__方法可以满足 迭代、下标取值、切片和in操作
+		
+	猴子补丁
+		在运行时修改类或者模块，而不改动源码
+			Class.__getiem__ = my_getitem_func
+			
+		random.shuffle()就地打乱序列的顺序
+		函数并不关心参数的类型，只需要实现了需要的协议即可，即使对象源码中没有，可以通过猴子补丁加上去也使用这些函数
+		
+	抽象基类
+		不需要自己去定义，适合框架作者来使用
+		推荐使用“白鹅类型”，即继承抽象基类
+	
+	定义抽象基类的子类
+		需要实现所有的抽象方法
+	
+	标准库中的抽象基类
+		collections.abc
+			源码 Lib/_collections_abc.py
+			
+			MappingView	
+				.items() .keys() .values()方法 分别返回 ItemsView KyesView ValuesView的实例
+			
+			Callable 和 Hashable
+				因为其重要性被放在collections.abc中主要作用是为内置的isinstance提供支持，以一种安全的方式判断对象能不能调用或者散列
+				可以使用callable()函数判断对象是否能被调用，但是没有提供hashable()函数，可以使用isinstance(obj, Hashable)
+		
+		numbers
+			bool是int的子类
+			isinstalce(x, numbers.Real) 检查bool int float fractions.Fraction Numpy(numpy进行了注册)提供的非复数类型
+	
+	定义并使用抽象基类
+		声明抽象方法
+			@abc.abstractmethod
+			
+		声明抽象类方法  堆叠装饰器的方式，同理staticmethod和property也是这样实现
+		@abstractmethod装饰器与def直接不应该有其他装饰器
+			@classmethod
+			@abc.abstractmethod
+		
+		os.urandom()返回一串适合加密用途的随机字节 基于不同的平台有不同的算法
+											windows 	CryptGenRandom()
+											linux	    getrandom()
+											
+		register
+			python3.3以后
+			@抽象基类.register 装饰器用于可以注册虚拟子类，即符合isinstance和issubclass的子类，但是没有要求一定要实现抽象方法，python默认你自己会遵守
+			相当于 抽象基类.register(子类)
+		
+	
+	Python 使用 register
+		一般使用抽象基类.register(子类)形式
+		
+	鹅的行为可能像鸭子
+		实现__len__能使得isinstance(obj, abc.Sized)和issubclass(obj, abc.Sized)为True的原因是abc.Sized实现了一个特殊方法__subclasshook__
+		abc.Sized类中__subclasshook__方法遍历了__mro__中的所有method，查看是否有__len__方法，如果有，则为True
+		
+	总结
+		日常使用中，我们应该避免创建抽象基类，而应该是去创建现有的抽象基类的子类，或者用现有的抽象基类注册
+		
+	强类型语言和弱类型语言
+		如果一门语言很少隐式得转换类型，说明它是强类型语言；如果经常这么做，说明它是弱类型语言。Python，Java，C++是强类型，PHP,JavaScript，Perl是弱类型
+	
+	静态类型和动态类型
+		在编译时检查语言时静态类型语言，如javac demo.java编译成.class文件再使用java运行
+		静态语言需要声明类型
+		
+			
+			
+		
+		

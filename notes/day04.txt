@@ -1,0 +1,91 @@
+2.8 bisect
+	bisect.bisect(iter, x) 返回x 在iter中插入的位置，bisect_right的别名函数，会插入到序列中相等元素的后面
+	bisect.bisect_left(iter, x)返回x 在iter中插入的位置，当x的值与iter中的值相等时，默认返回跟原序列中与插入元素相等的元素的位置
+	
+	使用bisect进行成绩评级，使用bisect_left在成绩刚好等于70的时候被评为了D级，是不正确的
+	
+	bisect.insort(iter, x) 插入并保持有序
+	
+2.9 当列表不是首选
+    如果存储大量同种类型的数据，用array效率会更高
+	如果需要实现先进先出队列，用deque速度会更块
+	如果要进行频繁的in检查，用set效率会更高，因为set的in操作经过优化
+	
+	array.array
+		a = array('d', data)创建指定类型的数组
+		a.tofile(openfile)  写入文件
+		a.fromfile(openfile) 读取文件
+	
+	
+	对象的序列化使用pickle, 用法类似与json，json是序列化为人类可读形式而pickle是针对python的对象将其序列化为二进制文件
+	
+	内存视图(memoryview)  
+		能够修改内存中的字节
+		memoryview对象允许Python代码访问支持缓冲区协议的对象的内部数据而无需复制。
+		
+	mybuf = ...# 大量缓存
+	memv_mybuf = memoryview(mybuf)  #获取内存视图对象
+	func(memv_mybuf[:len(memv_mybuf)//2]) #操作缓冲区的一半。
+	省略了复制的过程，节省了内存空间
+	
+	from time import perf_counter
+	perf_counter()用于比较时间性能  类似于time.time() - start
+	
+	参考资料 https://eli.thegreenplace.net/2011/11/28/less-copies-in-python-with-the-buffer-protocol-and-memoryviews/
+	python官方文档 https://docs.python.org/dev/library/stdtypes.html#typememoryview
+	
+	
+	collections.deque(maxlen=None)线程安全
+		dq.rotate()  #类似传送带的移动, 队列的所有操作一般都遵循这个规律
+		dq.append_left() #添加
+		dq.extend()  #合并  注意：extend是遍历的方式添加进deque，所以deque中的顺序会是待添加序列的逆序
+		
+		deque不支持 * 和 *= 操作
+		
+	queue
+		Queue, LifoQueue, PriorityQueue
+		同样是线程安全的，但是当队列满的时候，插入操作会阻塞，知道有空位出来才继续执行
+		
+	multiprocessing.Queue
+		跟queue.Queue一样，这个是设计给进程间通信用的，multiprocessing.JoinableQueue能使任务管理更加方便
+		
+	asyncio
+		Queue,LifoQueue,PriorityQueue,JoinableQueue都有，并且针对异步编程而使用的
+	
+	heapq
+		提供了heappush和heappop操作，使可变序列拥有堆队列或优先队列的特性
+		
+
+第三章 字典和集合   
+	泛映射类型
+		可散列的数据类型:如果一个对象是可散列的，那么在这个对象的生命周期中，散列值是不变的，而且这个对象要实现__hash__()方法和__eq__()方法，__eq__不实现也能使用hash()函数
+		如果两个可散列对象相等，则他们的散列值也相等
+		对于用户自定义的类，散列值是他们的id()函数的返回值，如果一个对象实现了__eq__方法，那么对象内部的状态必须都是不可变的才是可散列的对象
+		
+	疑问：		
+		如果一个对象实现了 __eq__ 方法，并且在方法中用到了这个对象的内部状态的话，那么只有当所有这些内部状态都是不可变的情况下，这个对象才是可散列的。
+		如何实现一个类，它实现了__hash__和__eq__但是却是不可哈希的
+	答：
+	    如果实现了hash()，内部状态并不能够阻止解释器对其进行hash()，全靠自觉
+		
+	字典推导式
+		d = {key: value for key, value in [(key1, value1), (key2, value2)]}
+		
+		使用setdefault处理找不到的键，d.get()方法能处理查询的时候找不到键但是更新的时候较为麻烦，所以使用setdefault
+		d.setdefault(key, defaultValu).append(newValue)
+		setdefault()函数返回了设置d[key] = defaultValu并且返回d[key] ,然后使用d[key]重新赋值
+		
+		__getitem__函数生效的情况是 d[k] 而 d.get(k)并不会生效, 背后原理是__missing__方法
+	其他字典类型
+		collections.OrderDict
+			添加的时候保持有序。 d.popItem(last=False)则返回第一个元素
+		collections.ChainMap
+			
+		
+		
+
+		
+	
+	
+	
+	

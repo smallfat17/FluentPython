@@ -1,0 +1,18 @@
+		标准库中的装饰器
+			functools.lru_cache
+				能够存储函数的执行结果，采用Last Recently Used模式
+				@functools.lru_cache(maxsize=128, tped=False)
+				maxsize表示存储结果的最大数量，如果超过这个值则会把旧的扔掉，即Last Recently Used原则
+				typed把不同的参数类型得到的结果分开，如1和1.0，int和float
+				由于lru_cache采用字典存储结果，所以被其修饰的函数，所有参数都必须是可散列的
+			
+			functools.singledispatch(泛函数)
+				针对不同的参数类型，函数需要进行不同的操作
+				文档PEP 443 https://www.python.org/dev/peps/pep-0443/
+				
+		叠放装饰器
+			@d1
+			@d2
+			def func():
+				pass
+			func = d1(d2(func))

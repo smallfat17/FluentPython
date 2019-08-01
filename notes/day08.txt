@@ -1,0 +1,24 @@
+	函数内省
+		dir()查看对象的属性
+		函数的参数名称 fn.__code__.co_varnames
+			使用signature获取, from inspect import signature , signature(fn)
+			使用signature对象,sig, sig.bind(**myargs)用于检验参数是否合理，框架和IDE等工具便是使用这些信息来验证代码
+	
+	函数注解(Python3特性)
+		def fn2(s1: str, c: str, a: 'int >0'=80) -> int:pass
+		其作用是将注解信息存储再__annotations__里，仅此而已
+		再signature.values()的元素中有annotation值可以提取annotations，用于校验参数，python本身不会使用annotations进行任何除了存储到__annotaion__的任何操作
+	
+	python用于函数式编程的包
+		opertor
+			operator为多个运算符提供了对应的函数，如mul可以代替lambda a, b: a*b这样平凡的匿名函数
+					itemgetter(1, 2) 相当于 lambda fileds: fileds[1], fileds[2]
+		partial
+			冻结部分参数
+			改进nfc = nomalize('NFC', data)
+			nfc(data)
+			看day08中的Partial_Tes
+
+第六章	使用一等函数实现设计模式
+	
+			

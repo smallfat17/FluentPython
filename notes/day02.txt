@@ -1,0 +1,20 @@
+tuple 可以构造带字段名的元组和一个有名字的类   即带名字的类
+Ciyt = collections.nametuple('City', 'name country population') 
+创建了一个City类--->属性有name, country和population
+City._fields()获取类属性
+City._make() 传入可迭代对象,实例化一个类
+obj._asdict()  以键值对的形式返回类属性
+
+切片
+切片忽略最后一个元素  a[start: stop] 所以长度 = stop - start
+slice(start, stop, step) 函数创建一个slice对象, 可迭代对象进行切片操纵时可以使用slice对象
+a = range(20)
+even = slice(0, -1, 2)
+a[even]  获取0,20的偶数
+
+
+l = list(range(10))
+
+l[2:5] = [20, 30]  # [0, 1, 20, 30, 5, 6, 7, 8, 9]
+l[2:4] = 100  #错误 
+l[2:4] = [100]#正确

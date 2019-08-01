@@ -1,0 +1,26 @@
+	容器类型python3官方文档https://docs.python.org/3/library/collections.html
+	
+第四章	文本和字节序列
+	编码与解码
+		python3中的str类型是unicode字符
+		
+		把码位转换成字节序列的过程时编码，把字节序列转换成码位的过程是解码。
+		s = 'abc'
+		b = s.encode('utf8')
+		print(b)  #b'abc'
+		print(type(b)) #<class 'bytes'>
+
+		s_b = b.decode('utf8')
+		print(s_b) #abc
+		print(type(s_b)) #<class 'str'>
+	
+	对于切片类型，str类型比较特殊，s[i]和s[i:i+1]返回的值一样，但是别的序列类型会s[i:i+1]会返回有一个元素的序列而不是元素
+	bytes类型存储的是0~256内的整数
+	bytes可能的三种显示方式
+		可打印的ASCII范围内的字节（空格到~），使用ASCII字符本身
+		制表符、换行符、回车符和\对应的字节，使用转义序列\t,\n,\r和\\  (python3.7中制表符不会被打印为\t)
+		其他字节的值，使用十六进制转移序列（\x00为空字节） (python3.7中空字节不会被显示为\x00，但\x00可以decode为空字节)
+	支持str的函数一般都支持bytes，python3.5以后 % 才可支持bytes的操作，如casefold, isdecimal, isidentifier, isnumeric, isprintable, encode, endswith, replace, strip, translate, upper等
+																		(数字是具有属性值Numeric_Type = Digit或Numeric_Type = Decimal的字符)
+	
+		

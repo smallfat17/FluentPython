@@ -1,0 +1,111 @@
+	等差数列生成器
+		start, step, step=None
+		如果step位None,则无限等差数列
+	
+	使用itertools模块生成等差数列
+		itertools.count
+			itertools.count(start, step) 永不停止的等差数列
+		
+		itertools.takewhile
+			itertools.takewhile(lambda n: n<3, generator)
+			生成使用另一个生成器的生成器
+		
+	
+	标准库中的生成器函数
+		过滤
+			itertools.compress(it, selector_it)  如果selector_it中的值为True则产出it中对应的值
+			itertools.dropwhile(predicate, it) 跳过predicate为True的值
+			(内置)filter(predicate, it)	predicate为True，产出元素，predicate为None，产出真值元素
+			itertools.filterfalse(predicate, it) 与filter相反
+			itertools.islice(it, stop) 或islice(it, start, stop,step=1)  类似列表的切片[start:stop:step]
+			itertools.takewhile(predicate, it) predicate真值时产出值，如果为False不再继续
+				In [55]: list(itertools.takewhile(vowel, 'Aaeuias'))
+				Out[55]: ['A', 'a', 'e', 'u', 'i', 'a']
+
+				In [56]:  list(itertools.takewhile(vowel, 'Aardvark'))
+				Out[56]: ['A', 'a']
+			
+		映射(与字典没关系，和内置的map函数有关)
+			itertools.accumulate(it, [func])  聚合函数，惰性版的functools.reduce(func, iterable)
+			(内置)enumerate(iterable, start=0)  产出以iterable中的item和start组成的元组，从start开始(item1, start) (item2, start+1)以此类推,start作用仅仅是显示产出的顺序
+			(内置)map(func, it1, it2, ..., itn)  如果传入N个对象，func需要必须能接受N个参数
+				In [82]: list(map(operator.add, [1, 2, 3], [4, 5, 6]))
+				Out[82]: [5, 7, 9]
+			itertools.starmap(func, it) 
+				In [83]: list(itertools.starmap(operator.mul, ((1, 2), (3, 4))))
+				Out[83]: [2, 12]
+		
+		合并生成器
+			itertools.chain(it1,..., itN)先产出it1的所有元素，然后it2....以此类推
+			itertools.chain.from_iterable(it)   类似与numpy.flat
+				In [98]: list(itertools.chain.from_iterable([[1, 2, 3],[4, 5, 6]]))
+				Out[98]: [1, 2, 3, 4, 5, 6]
+			itertools.product(it1, it2,..., itN, repeat=1) 计算笛卡儿积，repeat代表重复次数
+			(内置)zip(it1, ..., itN)将N个可迭代对象的元素合并成元组产出 (it1.item1, it2.item1) (it1.item2, it2.item2)
+			itertools.zip_longest(it1,...itN, fillvalue=None)同上，但是会使用fillvalue填充缺失的值
+			
+		把各个元素扩展成多个输出元素的生成器函数
+			itertools.combinations(it, out_len)	 排列组合和中的组合，选取out_len个元素进行组合，并且组合不重复
+			itertools.combinations_with_replacement(it, out_len)	排列组合和中的组合，选取out_len个元素进行组合，元素可重复使用
+			itertools.permutations(it, out_len=None) 返回out_len个数的排列，默认值为len(list(it))
+			
+			
+			可以无限产出的迭代器
+			itertools.count(start=0, step=1) 从start开始计数，偏移量为1，永不停止 
+			itertools.cycle(it) 从it中产出元素并且保存副本，可以无限循环
+			itertools.repeat(item, times=None) 重复产出item(整个item)，重复times次，默认为无限次
+			
+		用于重新排列元素的生成器
+			itertools.groupby(it, key=None) 	分组产出中"连续"的键和组，返回(key, group)	group是生成器，用于产出分组的元素
+			(内置)reversed(seq) 	倒序，seq对象必须是序列或者实现了__reversed__方法的
+			itertools.tee(it, n=2) 产出一个由n个生成器组成的元组 *itn, = iterable.tee([1, 2, 3, 4, 5], n=5)  
+				注意！！！     *itn, = tuple  逗号一定要加
+			
+			
+		yield from
+			for x in iterable:
+				yield x
+			
+			yield from iterable
+			
+		可迭代的规约函数
+			all()
+			any()
+			max()
+			min()
+			functools.reduce()
+			sum()
+		
+	深入分析iter函数
+		random.randint(start, stop)函数包括头和尾
+		使用iter(it, end) 当it产出end的时候抛出StopIteration
+	
+	在数据库转换工具中使用生成器
+		处理大量数据的时候，生成器能够节省内存空间并且提供了更加灵活的操作方式
+	
+	证明生成器是迭代器
+		isinstance(gen, collections.abc.Iterator)
+	
+	协程
+		全英教程 http://www.dabeaz.com/coroutines/Coroutines.pdf
+		可以中断或启动程序的子程序
+
+第 15 章 上下文管理器和 else 块
+	else子句
+		for  else
+			当for循环没有被break时，执行else
+		while else
+			当while循环没有被breakk时才执行else
+		try else
+			当 try没有抛异常才执行else
+	with 语句
+		with obj() as f:
+			pass
+		调用obj类的__enter__函数赋值给f，执行完后调用__exit__函数
+	
+	协程 https://cuiqingcai.com/6160.html
+		这篇更好 https://blog.csdn.net/soonfly/article/details/78361819
+			
+			
+		
+		

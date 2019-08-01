@@ -1,0 +1,30 @@
+		出租车对运营仿真
+			看代码
+		
+第 17 章 使用期物处理并发
+	期物(future)
+		concurrent.futures.Future
+		asyncio.Future
+		两者几乎相同，都是表示已经完成的或者尚未完成的延迟计算
+		通常情况下自己不应该创建Future，而只能由并发框架(concurrent.futures或asyncio)实例化
+		future.result()方法可以获取future的结果，但是再concurrent.futures中会阻塞调用方所在的线程，它支持timeout参数，而asyncio不支持timeout，所以应该再asyncio中使用yield from
+		future.submit()提交任务返回一个Future
+		futures.as_completed(future_list)能够再future执行完成后产出future
+		
+	阻塞型I/O和GIL
+		再I/O阻塞的时候GIL会释放
+		
+	使用concurrent.futures绕开GIL
+		启动进程
+			ProcessPoolExecutor类把工作分配给多个Python进程处理，实现了真正的并行计算，并且利用了CPU多核心
+			executor.submit和futures.as_completed这个组合比executor.map更加灵活，map只能调用同一个可调用对象
+		
+	tqdm
+		再控制台输出进度
+		for i in tqdm(range(1000), ncols=50):
+			pass
+		ncols参数设置宽度，过宽会换行
+		
+	multiprocess模块能够再进程之间通信
+	Python线程并非一无是处，再I/O密集型的操作中能体现出作用，但是asyncio是更好的选择 :)
+	

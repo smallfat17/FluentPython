@@ -1,0 +1,24 @@
+第 10 章 序列的修改、散列和切片
+	自定义的序列类型 Vector
+		reprlib.repr()函数能够使得长度超过6（包括6）的序列的输出用...代替
+		
+	协议和鸭子类型
+		在面向对象编程中，协议 指的是非正式的接口，只在文档中定义而不在代码中定义
+		实现了__len__和__getitem__便满足了序列协议，它的行为像序列，就可以说它是序列
+		
+		'{cls.__name__}'.format(cls=cls) #能够正确显示cls.__name__属性
+		
+	动态存取属性
+		__getattr__函数在解释器查找不到属性的时候调用。顺序为--实例属性--实例__class__--实例的__getattr__(简单说法)
+		如果只实现了__getattr__方法，在设置值的时候，会创建一个新的属性，而并没有改变__getattr__所获取的值，所以相应的要实现__setattr__
+		像满足obj[i] = value的赋值，需要实现__setitem__方法
+		
+	zip()函数如果长度不等会自动忽略(当任一个迭代结束，zip函数结束)，itertools.zip_longest(...,fillvalue=-1)用-1填充缺失值
+	enumerate()函数
+		相当于
+			def enumerate(sequence, start=0):
+				n = start
+				for ele in sequence:
+					yield n, elem
+					n += 1
+		itertools.chain(iter1, iter2, ...)将多个序列拼接成一个生成器
