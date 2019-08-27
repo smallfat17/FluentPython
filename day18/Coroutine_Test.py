@@ -1,4 +1,5 @@
 from inspect import getgeneratorstate
+from multiprocessing import Semaphore
 
 def simple_coroutine():
     x = yield

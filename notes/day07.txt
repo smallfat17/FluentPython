@@ -1,4 +1,4 @@
-	结构体和内存视图
+﻿	结构体和内存视图
 		对memoryview的切片操作不会复制字节序列
 	编码
 		latin1(iso8859_1)
@@ -30,7 +30,7 @@
 		
 		如何确定正确的编码
 			ease to say，不能，必须是被告知
-			内达华穷举法！！python提供了Chardet库，用于检测文件的编码格式，根据字节序列的特性
+			内华达穷举法！！python提供了Chardet库，用于检测文件的编码格式，根据字节序列的特性
 			hardetect UnicodeError_Test.py
 			UnicodeError_Test.py: utf-8 with confidence 0.99
 		
@@ -54,7 +54,7 @@
 		NFC是W3C推荐的规范形式
 		NFKC是带兼容性的标准，如'½'会被兼容分解位1/2三个字符，µ会被分解为小写字母μ，虽然看起来一样但是编码不同，但是4²会被兼容分解为42，虽然曲解了本意，但也为搜索提供了便利的中间描述，所以NFKC和NFKD只能用于搜索和索引
 		
-		不区分大小写的比较，使用cssefold()
+		不区分大小写的比较，使用casefold()
 		处理多语言文本，nfc+casefold()进行比较
 		
 		在搜索和索引的时候去掉变音符号是比较好的选择

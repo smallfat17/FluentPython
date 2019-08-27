@@ -1,4 +1,4 @@
-tuple 可以构造带字段名的元组和一个有名字的类   即带名字的类
+﻿nametuple 可以构造带字段名的元组和一个有名字的类   即带名字的类
 Ciyt = collections.nametuple('City', 'name country population') 
 创建了一个City类--->属性有name, country和population
 City._fields()获取类属性

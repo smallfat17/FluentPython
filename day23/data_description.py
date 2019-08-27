@@ -1,6 +1,5 @@
 class Quantity:
 
-    print('................??')
     def __init__(self, storage_name):
         self.storage_name = storage_name
 
@@ -71,6 +70,6 @@ if __name__ == '__main__':
     # q.data = 'ss'
     # print(q.data)
 
-    # Person = test('Person', 'name age')
-    # p = Person('jack', 25)
-    # print(p)
+    Person = test('Person', 'name age')
+    p = Person('jack', 25)
+    print(p)
